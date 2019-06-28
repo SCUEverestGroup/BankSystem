@@ -28,8 +28,8 @@ class User:private BaseUser{
         void Relate_Account();//关联信息
         void Retrieve_Password();//取回密码
         /*Retrieve_Password 调用函数 */
-        void Email_Certification();//邮箱认证
-        void Phone_Certification();//电话认证
+        //void Email_Certification();//邮箱认证
+        //void Phone_Certification();//电话认证
         void Appeal();//申诉
 
         void Logout();//注销账户
