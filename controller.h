@@ -5,9 +5,9 @@ class controller{
         
         void run();//流程运行函数
         void welcome();//欢迎界面
-        int ModeSelect();//Sign up/in 选择函数
-        void SignUp();//注册函数
-        void SignIn();//登陆函数
+        int ModeSelect();//Sign up/in 功能选择界面函数
+        void SignUp_Operation();//注册函数
+        void SignIn_Operation();//登陆函数
         void initUI();//初始化界面
     private:
        

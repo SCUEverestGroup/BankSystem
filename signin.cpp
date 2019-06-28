@@ -3,9 +3,17 @@
 #include "baseuser.h"
 using namespace std;
 
-Signin::Signin() : islocked(true){};
+void SignIn::Init_Signin_UI(){
+    //QT界面
+}
+void SignIn::User_Opertation_UI(){
+//User 操作界面
+}
+void SignIn::Manager_Operation_UI(){
+//Manager操作界面
+}
 
-bool Signin::JudgeType(){
+bool SignIn::JudgeType(){
     //输入ID 密码 并记录在ID KEY中
     bool usertype;
     //数据库查找返回usertype user则为true; manager则为false;
@@ -13,26 +21,31 @@ bool Signin::JudgeType(){
     return usertype;
 }
 
-User* Signin::ReturnUser(string ID, string Key){
+User* SignIn::ReturnUser(string ID, string Key){
     User *usr;
+    /*通过数据库API返回用户指针 */
     return usr;
 }
 
-Manager* Signin::ReturnManager(string ID, string Key){
-    //
+Manager* SignIn::ReturnManager(string ID, string Key){
     Manager *usr;
     //通过数据库返回指针
     return usr;
 };
 
-int Signin::UserChoice(User* usr){
-    /*这插入一个选择函数 ,选择要进行操作的类型并返回相应序号*/
+int SignIn::UserChoice(User* usr){
+    int choice;
+     /*这插入一个选择函数 ,选择要进行操作的类型并返回相应序号*/
+    return choice;
 }
-int Signin::ManagerChoice(Manager* usr){
-    
+int SignIn::ManagerChoice(Manager* usr){
+    int choice;
+    /*这插入一个选择函数 ,选择要进行操作的类型并返回相应序号 */
+    return choice;
 }
 
-void Signin::UserSignin(User* usr ){
+void SignIn::UserSignin(User* usr ){
+    User_Opertation_UI();
     int choice = UserChoice(usr);
     while(choice){
         switch (choice)
@@ -79,7 +92,8 @@ void Signin::UserSignin(User* usr ){
        
 }
 
-void Signin::ManagerSignin(Manager* usr){
+void SignIn::ManagerSignin(Manager* usr){
+    Manager_Operation_UI();
     int choice = ManagerChoice(usr);
         while(choice){
             switch (choice)
@@ -113,9 +127,8 @@ void Signin::ManagerSignin(Manager* usr){
         }    
 }
 
-void Signin::SigninAction(){
-
-
+void SignIn::SigninAction(){
+    Init_Signin_UI();
     if(JudgeType()){//判定用户类型
         if(!islocked){
             User *usr = ReturnUser(ID,Key);
