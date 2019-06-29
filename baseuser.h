@@ -1,6 +1,6 @@
 #ifndef BASEUSER_H
 #define BASEUSER_H
-
+using namespace std; 
 class BaseUser{
     public:
         string ID_Account;
