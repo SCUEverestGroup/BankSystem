@@ -2,9 +2,10 @@
 //  Database.cpp
 //  BankSystem
 //
-//  Created by 周宇浩 on 2019/6/28.
+//  Created by Soptq on 2019/6/28.
 //  Copyright © 2019 Soptq. All rights reserved.
 //
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,6 +16,7 @@
 #include <vector>
 
 #include "Database.h"
+#include "md5.h"
 
 using namespace std;
 
@@ -32,7 +34,8 @@ Database::~Database(){
 
 string Database::generateID(int n = 6){
     string output;
-    srand((unsigned)time(NULL));
+//    cout << "time=" << (unsigned)clock() << endl;
+    srand((unsigned)clock());
     for (int i = 0; i < n; ++i) {
         output += (char)(rand() % 10 + 48);
     }
@@ -44,7 +47,7 @@ string Database::generateID(int n = 6){
  **/
 
 string Database::encrypt(std::string password){
-    return password;
+    return MD5(password).toStr();
 }
 
 bool Database::initConnection(std::string username, std::string password, std::string host, unsigned int port){
@@ -54,7 +57,7 @@ bool Database::initConnection(std::string username, std::string password, std::s
         return false;
         // return tables;
     }else{
-        cout << "Successfully connected to the database" << endl;
+//        cout << "Successfully connected to the database" << endl;
         state = mysql_query(connection, "SHOW TABLES");
         if (state != 0){
             cout << mysql_error(connection) << endl;
@@ -87,7 +90,8 @@ bool Database::initConnection(std::string username, std::string password, std::s
                 cout << mysql_error(connection) << endl;
                 return false;
             }else {
-                state = mysql_query(connection, "INSERT INTO `bank_data`.`base_user_table`(`user_id`, `password`, `is_user`) VALUES ('000001', '123456', 0);");
+                command = "INSERT INTO `bank_data`.`base_user_table`(`user_id`, `password`, `is_user`) VALUES ('000001', '" + encrypt("123456") + "', 0);";
+                state = mysql_query(connection, command.c_str());
                 if (state != 0) {
                     cout << mysql_error(connection) << endl;
                     return false;
@@ -143,7 +147,7 @@ bool Database::query(std::string command){
  * 为数据库添加普通用户的接口
  **/
 
-bool Database::addUser(std::string password, std::string name, std::string gender, std::string cid, std::string phone, std::string email, std::string address, std::string zip){
+string Database::addUser(std::string password, std::string name, std::string gender, std::string cid, std::string phone, std::string email, std::string address, std::string zip){
     // generate fake id
     string id = generateID();
     // check if this id is used
@@ -152,7 +156,7 @@ bool Database::addUser(std::string password, std::string name, std::string gende
         state = mysql_query(connection, command.c_str());
         if (state != 0) {
             cout << mysql_error(connection) << endl;
-            return false;
+            return NULL;
         } else {
             result = mysql_store_result(connection);
             if (mysql_num_rows(result) == 0) {
@@ -162,29 +166,29 @@ bool Database::addUser(std::string password, std::string name, std::string gende
         }
     } while(true);
     // insert this user to base-user-table
-    cout << id << endl;
+    // cout << id << endl;
     command = "INSERT INTO `bank_data`.`base_user_table`(`user_id`, `password`, `is_user`) VALUES ('" + id + "', '" + encrypt(password) + "', 1);";
     state = mysql_query(connection, command.c_str());
     if (state != 0) {
         cout << mysql_error(connection) << endl;
-        return false;
+        return NULL;
     } else {
-        cout << "successfully insert into base_user_table" << endl;
+//        cout << "successfully insert into base_user_table" << endl;
     }
     // insert this user to user-table
     command = "INSERT INTO `bank_data`.`user_table`(`user_id`, `name`, `gender`, `cid`, `phone`, `email`, `address`, `zip`, `credit`, `deposit`, `reviewed`) VALUES ('" + id + "', '" + name + "', '" + gender + "', '" + cid + "', '" + phone + "', '" + email + "', '" + address + "', '" + zip + "', 100, 0, 0)";
     state = mysql_query(connection, command.c_str());
     if (state != 0) {
         cout << mysql_error(connection) << endl;
-        return false;
+        return NULL;
     } else {
-        cout << "successfully insert into user_table" << endl;
+//        cout << "successfully insert into user_table" << endl;
     }
-    return true;
+    return id;
 }
 
 
-bool Database::addManager(std::string password, std::string name, std::string gender, std::string cid, std::string phone, std::string email, std::string permission){
+string Database::addManager(std::string password, std::string name, std::string gender, std::string cid, std::string phone, std::string email, std::string permission){
     // generate fake id
     string id = generateID();
     // check if this id is used
@@ -193,7 +197,7 @@ bool Database::addManager(std::string password, std::string name, std::string ge
         state = mysql_query(connection, command.c_str());
         if (state != 0) {
             cout << mysql_error(connection) << endl;
-            return false;
+            return NULL;
         } else {
             result = mysql_store_result(connection);
             if (mysql_num_rows(result) == 0) {
@@ -207,20 +211,20 @@ bool Database::addManager(std::string password, std::string name, std::string ge
     state = mysql_query(connection, command.c_str());
     if (state != 0) {
         cout << mysql_error(connection) << endl;
-        return false;
+        return NULL;
     } else {
-        cout << "successfully insert into base_user_table" << endl;
+//        cout << "successfully insert into base_user_table" << endl;
     }
     // insert this user to manager-table
     command = "INSERT INTO `bank_data`.`manager_table`(`user_id`, `name`, `gender`, `cid`, `phone`, `email`, `permission`) VALUES ('" + id + "', '" + name + "', '" + gender + "', '" + cid + "', '" + phone + "', '" + email + "', " + permission + ");";
     state = mysql_query(connection, command.c_str());
     if (state != 0) {
         cout << mysql_error(connection) << endl;
-        return false;
+        return NULL;
     } else {
-        cout << "successfully insert into user_table" << endl;
+//        cout << "successfully insert into user_table" << endl;
     }
-    return true;
+    return id;
 }
 
 
@@ -269,7 +273,7 @@ bool Database::deleteUserByString(std::string condition, std::string value){
         cout << mysql_error(connection) << endl;
         return false;
     } else {
-        cout << "successfully delete the user" << endl;
+//        cout << "successfully delete the user" << endl;
     }
     return true;
 }
@@ -281,7 +285,7 @@ bool Database::deleteUserByInt(std::string condition, std::string value){
         cout << mysql_error(connection) << endl;
         return false;
     } else {
-        cout << "successfully delete the user" << endl;
+//        cout << "successfully delete the user" << endl;
     }
     return true;
 }
@@ -297,7 +301,7 @@ bool Database::deleteManagerByString(std::string condition, std::string value) {
         cout << mysql_error(connection) << endl;
         return false;
     } else {
-        cout << "successfully delete the manager" << endl;
+//        cout << "successfully delete the manager" << endl;
     }
     return true;
 }
@@ -309,7 +313,7 @@ bool Database::deleteManagerByInt(std::string condition, std::string value) {
         cout << mysql_error(connection) << endl;
         return false;
     } else {
-        cout << "successfully delete the manager" << endl;
+//        cout << "successfully delete the manager" << endl;
     }
     return true;
 }
@@ -368,7 +372,7 @@ bool Database::deleteFromAppealTable(std::string thingid){
 }
 
 bool Database::deleteCard(std::string userid, std::string cardnum){
-    command = "DELETE FROM `bank_data`.`card_table` WHERE `userid` = '" + userid + "' `cardnum` = '" + cardnum + "'";
+    command = "DELETE FROM `bank_data`.`card_table` WHERE `userid` = '" + userid + "' AND `cardnum` = '" + cardnum + "'";
     state = mysql_query(connection, command.c_str());
     if (state != 0) {
         cout << mysql_error(connection) << endl;
@@ -398,6 +402,10 @@ bool Database::isManager(std::string userid){
         return false;
     } else {
         result = mysql_store_result(connection);
+        if (mysql_num_rows(result) == 0){
+            cout << "No Result" << endl;
+            return false;
+        }
         if (strcmp(mysql_fetch_row(result)[2], "0") == 0) {
             mysql_free_result(result);
             return true;
@@ -417,6 +425,10 @@ User* Database::getUserByPassword(std::string userid, std::string password){
         return new User();
     } else {
         result = mysql_store_result(connection);
+        if (mysql_num_rows(result) == 0){
+            cout << "No Result" << endl;
+            return new User();
+        }
         row = mysql_fetch_row(result);
         mysql_free_result(result);
         if (strcmp(encrypt(password).c_str(), row[1]) == 0) {
@@ -613,7 +625,7 @@ bool Database::withdrawByUser(std::string userid, std::string amount){
 }
 
 bool Database::updateInfoByString(std::string userid, std::string condition, std::string value) {
-    command = "UPDATE `bank_data`.`user_table` SET `" + condition + "` = '" + value + "' WHERE `user_id` = ‘" + userid + "';";
+    command = "UPDATE `bank_data`.`user_table` SET `" + condition + "` = '" + value + "' WHERE `user_id` = '" + userid + "';";
     state = mysql_query(connection, command.c_str());
     if (state != 0) {
         cout << mysql_error(connection) << endl;
@@ -624,7 +636,7 @@ bool Database::updateInfoByString(std::string userid, std::string condition, std
 }
 
 bool Database::updateInfoByInt(std::string userid, std::string condition, std::string value) {
-    command = "UPDATE `bank_data`.`user_table` SET `" + condition + "` = " + value + " WHERE `user_id` = ‘" + userid + "';";
+    command = "UPDATE `bank_data`.`user_table` SET `" + condition + "` = " + value + " WHERE `user_id` = '" + userid + "';";
     state = mysql_query(connection, command.c_str());
     if (state != 0) {
         cout << mysql_error(connection) << endl;
@@ -636,6 +648,7 @@ bool Database::updateInfoByInt(std::string userid, std::string condition, std::s
 
 bool Database::cardReportLoss(std::string cardnum) {
     command = "UPDATE `bank_data`.`card_table` SET `isloss` = 1 WHERE `cardnum` = '" + cardnum + "'";
+//    cout << command << endl;
     state = mysql_query(connection, command.c_str());
     if (state != 0) {
         cout << mysql_error(connection) << endl;

@@ -30,8 +30,8 @@ public:
     bool initConnection(std::string username, std::string password, std::string host, unsigned int port);
     bool query(std::string command);
     // add
-    bool addUser(std::string password, std::string name, std::string gender, std::string cid, std::string phone, std::string email, std::string address, std::string zip);
-    bool addManager(std::string password, std::string name, std::string gender, std::string cid, std::string phone, std::string email, std::string permission);
+    std::string addUser(std::string password, std::string name, std::string gender, std::string cid, std::string phone, std::string email, std::string address, std::string zip);
+    std::string addManager(std::string password, std::string name, std::string gender, std::string cid, std::string phone, std::string email, std::string permission);
     bool addToAppealTable(std::string userid, std::string content);
     bool addCard(std::string userid, std::string card_num);
     // delete

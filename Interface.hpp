@@ -16,7 +16,7 @@
 class Interface{
 public:
     Database db;
-    bool signUpNewUser(std::string password, std::string name, std::string gender, std::string cid, std::string phone, std::string email, std::string address, std::string zip); //创建新用户, 传入 密码， 姓名， 性别， 身份证号， 手机号， 电子邮箱号， 地址， 邮编。返回值为一个 bool， 表示数据库操作是否成功。
+    std::string signUpNewUser(std::string password, std::string name, std::string gender, std::string cid, std::string phone, std::string email, std::string address, std::string zip); //创建新用户, 传入 密码， 姓名， 性别， 身份证号， 手机号， 电子邮箱号， 地址， 邮编。返回值为一个string， 如果为 NULL 则表示操作数据库失败，否则返回生成的用户 id 。
     bool isManager(std::string userid); // 传入一个 userid， 返回一个 bool ，真表示这个人是 manager， 假表示这个人不是 manager。
     Interface();
     ~Interface(){};

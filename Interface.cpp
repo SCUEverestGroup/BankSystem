@@ -2,7 +2,7 @@
 //  Interface.cpp
 //  BankSystem
 //
-//  Created by 周宇浩 on 2019/6/29.
+//  Created by Soptq on 2019/6/29.
 //  Copyright © 2019 Soptq. All rights reserved.
 //
 
@@ -18,7 +18,7 @@ Interface::Interface(){
     db.initConnection("root", "jplpFDetz3KF8Vy", "127.0.0.1", 3306);
 }
 
-bool Interface::signUpNewUser(string password, string name, string gender, string cid, string phone, string email, string address, string zip){
+string Interface::signUpNewUser(string password, string name, string gender, string cid, string phone, string email, string address, string zip){
     return db.addUser(password, name, gender, cid, phone, email, address, zip);
 }
 
