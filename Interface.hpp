@@ -32,6 +32,7 @@ public:
     ~UserInterface();
     void changeUser(User muser); //切换当前用户，传入一个 User 对象
     void showUser();
+    bool needReview(); //调用这个函数使该用户需要再次审核。
     bool login(std::string userid, std::string password); //登陆函数。若账号密码正确，则会自动初始化 User，返回一个 bool，表示是否登陆成功。
     bool depositeMoney(std::string amount);//存款，传入一个存款数值。返回值是一个 bool， 表示数据库操作是否成功，
     bool withdrawMoney(std::string amount);//取款，传入一个取款数值。返回值是一个 bool，表示数据库操作是否成功。

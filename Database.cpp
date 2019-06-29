@@ -660,6 +660,10 @@ bool Database::checkedUserProfile(std::string userid){
     return updateInfoByInt(userid, "reviewed", "1");
 }
 
+bool Database::uncheckedUserProfile(std::string userid){
+    return updateInfoByInt(userid, "reviewed", "0");
+}
+
 bool Database::changePasswordbyId(std::string userid, std::string password){
     command = "UPDATE `bank_data`.`base_user_table` SET `password` = " + encrypt(password) + " WHERE `user_id` = '" + userid + "';";
     state = mysql_query(connection, command.c_str());

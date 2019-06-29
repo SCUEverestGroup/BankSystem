@@ -186,6 +186,15 @@ bool UserInterface::deleteAddressInfo(){
     }
 }
 
+bool UserInterface::needReview(){
+    if (user.id_account != "") {
+        return db.uncheckedUserProfile(user.id_account);
+    } else {
+        cout << "No User Selected" << endl;
+        return false;
+    }
+}
+
 bool UserInterface::addCard(std::string card_num){
     if (user.id_account != "") {
         return db.addCard(user.id_account, card_num);

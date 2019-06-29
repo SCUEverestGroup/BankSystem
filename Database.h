@@ -74,6 +74,7 @@ public:
     bool cardReportLoss(std::string cardnum);
     bool revertCardReportLoss(std::string cardnum);
     bool checkedUserProfile(std::string userid);
+    bool uncheckedUserProfile(std::string userid);
     bool changePasswordbyId(std::string userid, std::string password);
     bool updateLossCardNum(std::string userid, std::string old_cardnum, std::string new_card_num);
 };
