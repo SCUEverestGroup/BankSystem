@@ -10,11 +10,13 @@
 #include <iostream>
 #include <vector>
 
-#include "Interface.hpp"
+//#include "Interface.hpp"
+#include "BankPersonnel.hpp"
 
 using namespace std;
 
 int main(int argc, const char * argv[]) {
+    BankPersonnel bank;
     // test interface
 //    Interface interface;
 //    cout << (interface.isManager("000001") ? "true" : "false") << endl;
@@ -43,12 +45,12 @@ int main(int argc, const char * argv[]) {
 //    user.depositeMoney("1.4");
 //    user.revertReportLoss("123123123123");
 //    // test managerinterface
-    ManagerInterface manager;
-    manager.login("000001", "123456");
-    manager.showManager();
-    vector<Appeal*> group = manager.getAppeal();
-    cout << group[0]->content << endl;
+//    ManagerInterface manager;
+//    manager.login("000001", "123456");
+//    manager.showManager();
+//    vector<Appeal*> group = manager.getAppeal();
+//    cout << group[0]->content << endl;
 //    manager.processReport_Loss("710303", "510108200012", "1234567890");
-    manager.processAppeal("889521");
+//    manager.processAppeal("889521");
     return 0;
 }

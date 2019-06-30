@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <vector>
+#include <sstream>
 #include "Interface.hpp"
 #include "User.h"
 
@@ -298,6 +299,70 @@ bool UserInterface::deleteUser(){
     }
 }
 
+bool UserInterface::applyLoan(std::string amount){
+    if (user.id_account == "") {
+        cout << "NO User Selected" << endl;
+        return new User;
+    } else {
+        return db.addToLoanAppeal(user.id_account, amount);
+    }
+}
+
+std::vector<LoanAppeal*> UserInterface::checkLoanAppeal(){
+    if (user.id_account == "") {
+        cout << "NO User Selected" << endl;
+        return *new vector<LoanAppeal*>;
+    } else {
+        return db.searchLoanAppealById(user.id_account);
+    }
+}
+
+std::vector<Loan*> UserInterface::checkLoan(){
+    if (user.id_account == "") {
+        cout << "NO User Selected" << endl;
+        return *new vector<Loan*>;
+    } else {
+        return db.searchLoanByID(user.id_account);
+    }
+}
+
+bool UserInterface::payLoan(std::string loanid){
+    if (user.id_account == "") {
+        cout << "No User Selected" << endl;
+        return false;
+    } else {
+        if (stof(db.searchLoanByLoanId(loanid)->amount) <= user.depositeAmount) {
+            db.withdrawByUser(user.id_account, db.searchLoanByLoanId(loanid)->amount);
+            db.deleteLoan(loanid);
+            user.depositeAmount -= stof(db.searchLoanByLoanId(loanid)->amount);
+            return true;
+        } else return false;
+    }
+}
+
+bool UserInterface::transferMoney(std::string userid, std::string amount) {
+    if (user.id_account != "") {
+        if (db.withdrawByUser(user.id_account, amount) && db.depositeByUser(userid, amount)) {
+            user.depositeAmount -= std::atof(amount.c_str());
+            return true;
+        } else return false;
+    } else {
+        cout << "No User Selected" << endl;
+        return false;
+    }
+}
+
+
+
+User* UserInterface::getUser(){
+    if (user.id_account == "") {
+        cout << "NO User Selected" << endl;
+        return new User;
+    } else {
+        return &user;
+    }
+}
+
 ManagerInterface::ManagerInterface(){
 }
 
@@ -321,6 +386,14 @@ void ManagerInterface::changeManager(Manager muser){
     } else {
         cout << "The user you input is not vaild" << endl;
     }
+}
+
+string ManagerInterface::signupNewManager(std::string password, std::string name, std::string gender, std::string cid, std::string phone, std::string email, int permission) {
+    string perm;
+    stringstream ss;
+    ss << permission;
+    ss >> perm;
+    return db.addManager(password, name, gender, cid, phone, email, perm);
 }
 
 
@@ -395,3 +468,38 @@ bool ManagerInterface::processAppeal(std::string appealid) {
     }
 }
 
+Manager* ManagerInterface::getManager(){
+    if (manager.id_account == "") {
+        cout << "NO Manager Selected" << endl;
+        return new Manager;
+    } else {
+        return &manager;
+    }
+}
+
+std::vector<LoanAppeal*> ManagerInterface::getLoanAppeals(){
+    if (manager.id_account == "") {
+        cout << "No Manager Selected" << endl;
+        return *new vector<LoanAppeal*>;
+    } else {
+        return db.searchLoanAppeal();
+    }
+}
+
+bool ManagerInterface::approveLoanAppeals(std::string loanid, std::string interest){
+    if (manager.id_account == "") {
+        cout << "No Manager Selected" << endl;
+        return false;
+    } else {
+        return db.addToLoan(loanid, interest);
+    }
+}
+
+bool ManagerInterface::deleteUser(std::string userid){
+    if (manager.id_account == "") {
+        cout << "No Manager Selected" << endl;
+        return false;
+    } else {
+        return db.deleteUserByid(userid);
+    }
+}

@@ -2,7 +2,7 @@
 //  Appeal.h
 //  BankSystem
 //
-//  Created by Soptq on 2019/6/29.
+//  Created by 周宇浩 on 2019/6/29.
 //  Copyright © 2019 Soptq. All rights reserved.
 //
 

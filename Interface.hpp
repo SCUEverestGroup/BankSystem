@@ -12,6 +12,7 @@
 #include "Database.h"
 #include "User.h"
 #include "Loss.h"
+#include "Loan.h"
 
 class Interface{
 public:
@@ -22,7 +23,7 @@ public:
     ~Interface(){};
 };
 
-class UserInterface : Interface {
+class UserInterface : public Interface {
 private:
     User user;
 public:
@@ -52,9 +53,16 @@ public:
     bool changePassword(std::string new_password);//修改密码,传入新密码。返回值是一个 bool， 表示数据库操作是否成功。
     bool appeal(std::string content);//申诉，传入申述内容，返回值是一个 bool， 表示数据库操作是否成功。
     bool deleteUser();//注销账户，从数据库彻底删除整个用户。
+    bool applyLoan(std::string amount);
+    std::vector<LoanAppeal*> checkLoanAppeal();
+    std::vector<Loan*> checkLoan();
+    bool payLoan(std::string loanid);
+    bool transferMoney(std::string userid, std::string amount);
+    
+    User* getUser();
 };
 
-class ManagerInterface : Interface {
+class ManagerInterface : public Interface {
 private:
     Manager manager;
 public:
@@ -63,6 +71,7 @@ public:
     ~ManagerInterface();
     void showManager();
     void changeManager(Manager muser);
+    std::string signupNewManager(std::string password, std::string name, std::string gender, std::string cid, std::string phone, std::string email, int permission);
     bool login(std::string userid, std::string password); //登陆函数。若账号密码正确，则会自动初始化 Manager，返回一个 bool，表示是否登陆成功。
     std::vector<User*> getNewAccount();//获取需要审核的新账户, 返回值是一个包含 User 指针的 vector， 里面的所有用户都是需要审核的。
     bool verifyNewAccount(std::string userid); //传入一个 id， 表示管理员通过了对于这个id的审核。
@@ -70,6 +79,10 @@ public:
     bool processReport_Loss(std::string userid, std::string old_card_num, std::string new_card_num);//处理挂失信息,传入用户 id， 用户挂失卡号，新卡卡号，将为用户替换。传回一个 bool， 说明数据库操作有没有成功。
     std::vector<Appeal*> getAppeal();//获取目前所有申述的信息,返回值是一个装有 Loss 指针的 vector。
     bool processAppeal(std::string appealid);//处理挂失,当申述处理完成后 传入申述id，将此申述从表中删除。传回一个 bool， 说明数据库操作有没有成功。
+    std::vector<LoanAppeal*> getLoanAppeals();
+    bool approveLoanAppeals(std::string loanid, std::string interest);
+    Manager* getManager(); //获取当前管理员的权限等级。
+    bool deleteUser(std::string userid);
 };
 
 #endif /* Interface_hpp */

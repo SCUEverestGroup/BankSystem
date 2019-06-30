@@ -13,6 +13,7 @@
 #include "User.h"
 #include "Loss.h"
 #include "Appeal.h"
+#include "Loan.h"
 
 class Database{
 private:
@@ -33,7 +34,10 @@ public:
     std::string addUser(std::string password, std::string name, std::string gender, std::string cid, std::string phone, std::string email, std::string address, std::string zip);
     std::string addManager(std::string password, std::string name, std::string gender, std::string cid, std::string phone, std::string email, std::string permission);
     bool addToAppealTable(std::string userid, std::string content);
+    bool addToLoanAppeal(std::string userid, std::string amount);
+    bool addToLoan(std::string loanid, std::string interest);
     bool addCard(std::string userid, std::string card_num);
+    
     // delete
     bool deleteUserByString(std::string condition, std::string value);
     bool deleteUserByInt(std::string condition, std::string value);
@@ -46,6 +50,8 @@ public:
     bool deleteFromAppealTable(std::string thingid);
     bool deleteCard(std::string userid, std::string cardnum);
     bool deleteAppeal(std::string appealid);
+    bool deleteLoanAppeal(std::string loanid);
+    bool deleteLoan(std::string loanid);
     
     // search
     bool isManager(std::string userid);
@@ -64,6 +70,12 @@ public:
     std::vector<User*> searchReviewUsers();
     std::vector<Loss*> searchLoss();
     std::vector<Appeal*> searchAppeal();
+    std::vector<LoanAppeal*> searchLoanAppeal();
+    std::vector<LoanAppeal*> searchLoanAppealById(std::string userid);
+    LoanAppeal* searchLoanAppealByLoanId(std::string loanid);
+    std::vector<Loan*> searchLoan();
+    std::vector<Loan*> searchLoanByID(std::string userid);
+    Loan* searchLoanByLoanId(std::string loanid);
     
     // update
     bool updateDeposite(std::string userid, std::string amount, bool isDeposite);

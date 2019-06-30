@@ -14,6 +14,7 @@
 #include <string>
 #include <time.h>
 #include <vector>
+#include <sstream>
 
 #include "Database.h"
 #include "md5.h"
@@ -64,23 +65,37 @@ bool Database::initConnection(std::string username, std::string password, std::s
             return false;
         }
         result = mysql_store_result(connection);
-        bool hasBaseUserTable = false, hasUserTable = false, hasManagerTable = false, hasAppealTable = false,  hasCardTable = false ;
+        bool hasBaseUserTable = false, hasUserTable = false, hasManagerTable = false, hasAppealTable = false,  hasCardTable = false, hasLoanTable = false,
+            hasLoanAppealTable = false;
         while ( (row = mysql_fetch_row(result)) != NULL ){
             string temp = row[0];
             if (temp == "base_user_table") {
                 hasBaseUserTable = true;
+                continue;
             }
             if (temp == "user_table") {
                 hasUserTable = true;
+                continue;
             }
             if (temp == "manager_table") {
                 hasManagerTable = true;
+                continue;
             }
             if (temp == "appeal_table") {
                 hasAppealTable = true;
+                continue;
             }
             if (temp == "card_table") {
                 hasCardTable = true;
+                continue;
+            }
+            if (temp == "loan_table") {
+                hasLoanTable = true;
+                continue;
+            }
+            if (temp == "loan_appeal_table") {
+                hasLoanAppealTable = true;
+                continue;
             }
         }
         mysql_free_result(result);
@@ -123,6 +138,20 @@ bool Database::initConnection(std::string username, std::string password, std::s
         }
         if (!hasCardTable) {
             state = mysql_query(connection, "CREATE TABLE `card_table` (`userid` varchar(255) DEFAULT NULL,`cardnum` varchar(255) DEFAULT NULL,`isloss` int(255) DEFAULT NULL);");
+            if (state != 0) {
+                cout << mysql_error(connection) << endl;
+                return false;
+            }
+        }
+        if (!hasLoanTable) {
+            state = mysql_query(connection, "CREATE TABLE `loan_table` (`id` varchar(255) DEFAULT NULL,`userid` varchar(255) DEFAULT NULL,`loan_amount` varchar(255) DEFAULT NULL,`date` varchar(255) DEFAULT NULL,`interest` double(255,0) DEFAULT NULL);");
+            if (state != 0) {
+                cout << mysql_error(connection) << endl;
+                return false;
+            }
+        }
+        if (!hasLoanAppealTable) {
+            state = mysql_query(connection, "CREATE TABLE `loan_appeal_table` (`loan_id` varchar(255) DEFAULT NULL,`userid` varchar(255) DEFAULT NULL,`amount` varchar(255) DEFAULT NULL);");
             if (state != 0) {
                 cout << mysql_error(connection) << endl;
                 return false;
@@ -256,6 +285,60 @@ bool Database::addToAppealTable(std::string userid, std::string content){
     }
 }
 
+
+bool Database::addToLoanAppeal(std::string userid, std::string amount){
+    // generate fake id
+    string id = generateID();
+    do {
+        string command = "SELECT * FROM loan_table WHERE id = '" + id + "';";
+        state = mysql_query(connection, command.c_str());
+        if (state != 0) {
+            cout << mysql_error(connection) << endl;
+            return false;
+        } else {
+            result = mysql_store_result(connection);
+            if (mysql_num_rows(result) == 0) {
+                break;
+            }
+            mysql_free_result(result);
+        }
+    } while(true);
+    command = "INSERT INTO `bank_data`.`loan_appeal_table`(`loan_id`, `userid`, `amount`) VALUES ('" + id + "', '" + userid + "', '" + amount + "');";
+    state = mysql_query(connection, command.c_str());
+    if (state != 0) {
+        cout << mysql_error(connection) << endl;
+        return false;
+    } else {
+        return true;
+    }
+}
+
+bool Database::addToLoan(std::string loanid, std::string interest){
+    command = "SELECT * FROM `bank_data`.`loan_appeal_table` WHERE `loan_id` = '" + loanid + "';";
+    state = mysql_query(connection, command.c_str());
+    if (state != 0) {
+        cout << mysql_error(connection) << endl;
+        return false;
+    } else {
+        result = mysql_store_result(connection);
+        row = mysql_fetch_row(result);
+        mysql_free_result(result);
+        ostringstream os;
+        os << clock();
+        istringstream is(os.str());
+        string time;
+        is >> time;
+        command = "INSERT INTO `bank_data`.`loan_table`(`id`, `userid`, `loan_amount`, `date`, `interest`) VALUES ('" + loanid + "', '" + row[1] + "', '" + row[2] + "', '" + time + "', " + interest + ");";
+        state = mysql_query(connection, command.c_str());
+        if (state != 0) {
+            cout << mysql_error(connection) << endl;
+            return false;
+        } else {
+            return depositeByUser(row[1], row[2]);
+        }
+    }
+}
+
 bool Database::addCard(std::string userid, std::string card_num){
     command = "INSERT INTO `bank_data`.`card_table`(`userid`, `cardnum`, `isloss`) VALUES ('" + userid + "', '" + card_num + "', 0)";
     state = mysql_query(connection, command.c_str());
@@ -384,6 +467,30 @@ bool Database::deleteCard(std::string userid, std::string cardnum){
 
 bool Database::deleteAppeal(std::string appealid){
     command = "DELETE FROM `bank_data`.`appeal_table` WHERE `id` = '" + appealid + "';";
+    state = mysql_query(connection, command.c_str());
+    if (state != 0) {
+        cout << mysql_error(connection) << endl;
+        return false;
+    } else {
+        return true;
+    }
+}
+
+
+bool Database::deleteLoanAppeal(std::string loanid){
+    command = "DELETE FROM `bank_data`.`loan_appeal_table` WHERE `loan_id` = '" + loanid + "';";
+    state = mysql_query(connection, command.c_str());
+    if (state != 0) {
+        cout << mysql_error(connection) << endl;
+        return false;
+    } else {
+        return true;
+    }
+}
+
+
+bool Database::deleteLoan(std::string loanid){
+    command = "DELETE FROM `bank_data`.`loan_table` WHERE `id` = '" + loanid + "';";
     state = mysql_query(connection, command.c_str());
     if (state != 0) {
         cout << mysql_error(connection) << endl;
@@ -567,7 +674,7 @@ vector<User*> Database::searchReviewUsers(){
 
 vector<Loss*> Database::searchLoss(){
     vector<Loss*> output;
-    command = "SELECT * FROM `bank_data`.`card_table` WHERE `isloss` = 1";
+    command = "SELECT * FROM `bank_data`.`card_table` WHERE `isloss` = 1;";
     state = mysql_query(connection, command.c_str());
     if (state != 0) {
         cout << mysql_error(connection) << endl;
@@ -584,7 +691,7 @@ vector<Loss*> Database::searchLoss(){
 
 vector<Appeal*> Database::searchAppeal(){
     vector<Appeal*> output;
-    command = "SELECT * FROM `bank_data`.`appeal_table`";
+    command = "SELECT * FROM `bank_data`.`appeal_table`;";
     state = mysql_query(connection, command.c_str());
     if (state != 0) {
         cout << mysql_error(connection) << endl;
@@ -598,6 +705,105 @@ vector<Appeal*> Database::searchAppeal(){
         return output;
     }
 }
+
+vector<LoanAppeal*> Database::searchLoanAppeal(){
+    vector<LoanAppeal*> output;
+    command = "SELECT * FROM `bank_data`.`loan_appeal_table`;";
+    state =  mysql_query(connection, command.c_str());
+    if (state != 0) {
+        cout << mysql_error(connection) << endl;
+        return output;
+    } else {
+        result = mysql_store_result(connection);
+        while ((row = mysql_fetch_row(result)) != NULL) {
+            output.push_back(new LoanAppeal(row[0], row[1], row[2]));
+        }
+        mysql_free_result(result);
+        return output;
+    }
+}
+
+vector<LoanAppeal*> Database::searchLoanAppealById(std::string userid){
+    vector<LoanAppeal*> output;
+    command = "SELECT * FROM `bank_data`.`loan_appeal_table` WHERE `userid` = '" + userid + "';";
+    state =  mysql_query(connection, command.c_str());
+    if (state != 0) {
+        cout << mysql_error(connection) << endl;
+        return output;
+    } else {
+        result = mysql_store_result(connection);
+        while ((row = mysql_fetch_row(result)) != NULL) {
+            output.push_back(new LoanAppeal(row[0], row[1], row[2]));
+        }
+        mysql_free_result(result);
+        return output;
+    }
+}
+
+
+LoanAppeal* Database::searchLoanAppealByLoanId(std::string loanid){
+    vector<LoanAppeal*> output;
+    command = "SELECT * FROM `bank_data`.`loan_appeal_table` WHERE `loan_id` = '" + loanid + "';";
+    state =  mysql_query(connection, command.c_str());
+    if (state != 0) {
+        cout << mysql_error(connection) << endl;
+        return new LoanAppeal("","","");
+    } else {
+        result = mysql_store_result(connection);
+        row = mysql_fetch_row(result);
+        mysql_free_result(result);
+        return new LoanAppeal(row[0], row[1], row[2]);
+    }
+}
+
+vector<Loan*> Database::searchLoan(){
+    vector<Loan*> output;
+    command = "SELECT * FROM `bank_data`.`loan_table`;";
+    state =  mysql_query(connection, command.c_str());
+    if (state != 0) {
+        cout << mysql_error(connection) << endl;
+        return output;
+    } else {
+        result = mysql_store_result(connection);
+        while ((row = mysql_fetch_row(result)) != NULL) {
+            output.push_back(new Loan(row[0], row[1], row[2], row[3], row[4]));
+        }
+        mysql_free_result(result);
+        return output;
+    }
+}
+
+vector<Loan*> Database::searchLoanByID(std::string userid){
+    vector<Loan*> output;
+    command = "SELECT * FROM `bank_data`.`loan_table` WHERE ``userid` = '" + userid + "';";
+    state =  mysql_query(connection, command.c_str());
+    if (state != 0) {
+        cout << mysql_error(connection) << endl;
+        return output;
+    } else {
+        result = mysql_store_result(connection);
+        while ((row = mysql_fetch_row(result)) != NULL) {
+            output.push_back(new Loan(row[0], row[1], row[2], row[3], row[4]));
+        }
+        mysql_free_result(result);
+        return output;
+    }
+}
+
+Loan* Database::searchLoanByLoanId(std::string loanid){
+    command = "SELECT * FROM `bank_data`.`loan_table` WHERE ``id` = '" + loanid + "';";
+    state =  mysql_query(connection, command.c_str());
+    if (state != 0) {
+        cout << mysql_error(connection) << endl;
+        return new Loan("","","","","");
+    } else {
+        result = mysql_store_result(connection);
+        row = mysql_fetch_row(result);
+        mysql_free_result(result);
+        return new Loan(row[0], row[1], row[2], row[3], row[4]);
+    }
+}
+
 
 
 bool Database::updateDeposite(std::string userid, std::string amount, bool isDeposite){
