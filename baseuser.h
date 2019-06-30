@@ -3,6 +3,7 @@
 using namespace std; 
 class BaseUser{
     public:
+        BaseUser(string a, string b) : ID_Account(a), Key(b){};
         string ID_Account;
         string Key;
         string Name;
@@ -19,6 +20,7 @@ class BaseUser{
 
 class User:private BaseUser{
     public:
+        User(string a, string b) : BaseUser(a, b){};
         void Deposite_Money();//存款
         void Withdraw_Money();//取款
         void Add_Info();//增加信息
@@ -42,6 +44,7 @@ class User:private BaseUser{
 
 class Manager:private BaseUser{
     public:
+        Manager(string a, string b) : BaseUser(a, b){};
         void Verify_New_Account();//审核新账户
         void Process_Report_Loss();//处理挂失信息
         void Pro_Relate_Account();//处理关联账户

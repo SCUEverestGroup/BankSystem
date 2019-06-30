@@ -67,9 +67,9 @@ bool SignIn::JudgeType(){
         	
             setCursorLocation(16, 15);
             while (((*p = getch()) != 13) && count < length) {
-                // ���ﲻ��'\n'(10), new line
-                // ����'\r'(13), reback. ���ǰ��»س���,�������������linux��.
-                // ��Ҫ����getch��������й�.
+                // ���ﲻ��'\n'(10), new line
+                // ����'\r'(13), reback. ���ǰ��»س���,�������������linux��.
+                // ��Ҫ����getch��������й�.
                 putch('*');
                 fflush(stdin);
  
@@ -95,25 +95,27 @@ bool SignIn::JudgeType(){
             }
             else{
                 setCursorLocation(13, 9);
-                cout << "Load In Successfully!";
-                system("Pause");
-                system("cls");
                 //数据库查找返回usertype user则为true;
                 // manager则为false;
+                usertype = false;
+                if(usertype){//user
+                    cout << "User Load In Successfully!";
+                }
+                else cout<<"Manager Load In Successfully!";
+                
+                system("Pause");
+                system("cls");
+                
             }
-             //cin >> ID;
-            //cin >> x;
-            this->ID = "asdf";
-            this->Key = "asdg";
-
     }
     //islocked = false;
-    usertype =true;
+    //usertype =true;
     return usertype;
 }
 
 User* SignIn::ReturnUser(string ID, string Key){
-    User *usr=NULL;
+    //User *usr = NULL;
+    User *usr = new User(ID, Key);
     /*
     ========================
     通过数据库API返回用户指针 
@@ -123,7 +125,8 @@ User* SignIn::ReturnUser(string ID, string Key){
 }
 
 Manager* SignIn::ReturnManager(string ID, string Key){
-    Manager *usr=NULL;
+    Manager *usr=new Manager(ID,Key);
+
    /*
    ===========================
    通过数据库API返回管理员指针 
@@ -155,7 +158,9 @@ int SignIn::UserChoice(User* usr){
     
     setTextColor(3);
     setCursorLocation(13,7);
-    std::cout << "Use Direction Key to choose mode and tap enter to confirm:";
+    std::cout <<"Use Direction Key to Choose Mode ";
+    setCursorLocation(13, 8);
+    std::cout <<"And Tap Enter to Confirm:";
 
     setCursorLocation(13,10);
     setBackgroundColor();
@@ -217,7 +222,7 @@ int SignIn::UserChoice(User* usr){
 
                             setTextColor(3);
                             setCursorLocation(13,11);
-                            cout << "2.Withdraw_Money";
+                            cout << "2.Withdraw_Money ";
                             --choice;
                             break;
 
@@ -229,7 +234,7 @@ int SignIn::UserChoice(User* usr){
                             
                             setTextColor(3);
                             setCursorLocation(13,12);
-                            cout << "3.Add_Info";
+                            cout << "3.Add_Info ";
                             --choice;
                             break;
 
@@ -241,7 +246,7 @@ int SignIn::UserChoice(User* usr){
 
                             setTextColor(3);
                             setCursorLocation(13,13);
-                            cout << "4.Delete_Info";   
+                            cout << "4.Delete_Info ";   
                             --choice;
                             break;
 
@@ -253,7 +258,7 @@ int SignIn::UserChoice(User* usr){
 
                             setTextColor(3);
                             setCursorLocation(13,14);
-                            cout << "5.Modify_Info";        
+                            cout << "5.Modify_Info ";        
                             --choice;
                             break;       
 
@@ -265,7 +270,7 @@ int SignIn::UserChoice(User* usr){
 
                             setTextColor(3);
                             setCursorLocation(13,15);
-                            cout << "6.Report_Loss";        
+                            cout << "6.Report_Loss ";        
                             --choice;
                             break;
 
@@ -278,7 +283,8 @@ int SignIn::UserChoice(User* usr){
 
                             setTextColor(3);
                             setCursorLocation(13,16);
-                            cout << "7.Relate_Account";
+
+                            cout << "7.Relate_Account ";
                             --choice;
                             break;
 
@@ -290,7 +296,7 @@ int SignIn::UserChoice(User* usr){
 
                             setTextColor(3);
                             setCursorLocation(13,17);
-                            cout << "8.Retrieve_Password";
+                            cout << "8.Retrieve_Password ";
                             --choice;
                             break;
 
@@ -302,7 +308,7 @@ int SignIn::UserChoice(User* usr){
                             
                             setTextColor(3);
                             setCursorLocation(13,18);
-                            cout << "9.Appeal";
+                            cout << "9.Appeal ";
                             --choice;
                             break; 
 
@@ -314,7 +320,7 @@ int SignIn::UserChoice(User* usr){
 
                             setTextColor(3);
                             setCursorLocation(13,19);
-                            cout << "10.Logout";
+                            cout << "10.Logout ";
                             --choice;
                             break;
                         case 11:
@@ -325,18 +331,11 @@ int SignIn::UserChoice(User* usr){
 
                             setTextColor(3);
                             setCursorLocation(13,20);
-                            cout << "11.Exit";
+                            cout << "11.Exit ";
                             --choice;
                             break;                   
                     
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
+       
                     }
                 }
                 break;
@@ -346,7 +345,7 @@ int SignIn::UserChoice(User* usr){
                         case 1:
                             setCursorLocation(13,10);
                             setTextColor(3);
-                            cout << "1.Deposite Money";
+                            cout << "1.Deposite Money ";
 
                             setCursorLocation(13,11);
                             setBackgroundColor();
@@ -354,11 +353,11 @@ int SignIn::UserChoice(User* usr){
                             ++choice;
                             break;
 
-                        case 3:
+                        case 2:
                         
                             setCursorLocation(13,11);
                             setTextColor(3);
-                            cout << "2.Withdraw_Money";
+                            cout << "2.Withdraw_Money ";
                             
                             setCursorLocation(13,12);
                             setBackgroundColor();
@@ -366,11 +365,11 @@ int SignIn::UserChoice(User* usr){
                             ++choice;
                             break;
 
-                        case 4:
+                        case 3:
                             
                             setCursorLocation(13,12);
                             setTextColor(3);
-                            cout << "3.Add_Info";
+                            cout << "3.Add_Info ";
 
                             setBackgroundColor();
                             setCursorLocation(13,13);
@@ -378,11 +377,11 @@ int SignIn::UserChoice(User* usr){
                             ++choice;
                             break;
 
-                        case 5:
+                        case 4:
                             
                             setCursorLocation(13,13);
                             setTextColor(3);
-                            cout << "4.Delete_Info";
+                            cout << "4.Delete_Info ";
 
                             setBackgroundColor();
                             setCursorLocation(13,14);
@@ -390,11 +389,11 @@ int SignIn::UserChoice(User* usr){
                             ++choice;
                             break;       
 
-                        case 6:
+                        case 5:
                             
                             setCursorLocation(13,14);
                             setTextColor(3);
-                            cout << "5.Modify_Info";
+                            cout << "5.Modify_Info ";
 
                             setBackgroundColor();
                             setCursorLocation(13,15);
@@ -402,12 +401,12 @@ int SignIn::UserChoice(User* usr){
                             ++choice;
                             break;
 
-                        case 7:
+                        case 6:
 
     
                             setCursorLocation(13,15);
                             setTextColor(3);
-                            cout << "6.Report_Loss";
+                            cout << "6.Report_Loss ";
 
                             setBackgroundColor();
                             setCursorLocation(13,16);
@@ -415,11 +414,11 @@ int SignIn::UserChoice(User* usr){
                             ++choice;
                             break;
 
-                        case 8:
+                        case 7:
                             
                             setCursorLocation(13,16);
                             setTextColor(3);
-                            cout << "7.Relate_Account";
+                            cout << "7.Relate_Account ";
 
                             setBackgroundColor();
                             setCursorLocation(13,17);
@@ -427,11 +426,11 @@ int SignIn::UserChoice(User* usr){
                             ++choice;
                             break;
 
-                        case 9:
+                        case 8:
                             
                             setCursorLocation(13,17);
                             setTextColor(3);
-                            cout << "8.Retrieve_Password";
+                            cout << "8.Retrieve_Password ";
                             
                             setBackgroundColor();
                             setCursorLocation(13,18);
@@ -439,22 +438,22 @@ int SignIn::UserChoice(User* usr){
                             ++choice;
                             break; 
 
-                        case 10:
+                        case 9:
                             
                             setCursorLocation(13,18);
                             setTextColor(3);
-                            cout << "9.Appeal";
+                            cout << "9.Appeal ";
 
                             setBackgroundColor();
                             setCursorLocation(13,19);
                             cout << ">10.Logout";
                             ++choice;
                             break;
-                        case 11:
+                        case 10:
                             
                             setCursorLocation(13,19);
                             setTextColor(3);
-                            cout << "10.Logout";
+                            cout << "10.Logout ";
 
                             setBackgroundColor();
                             setCursorLocation(13,20);
@@ -476,13 +475,192 @@ int SignIn::UserChoice(User* usr){
     setCursorLocation(39, 31);
     return choice;
 }
+
 int SignIn::ManagerChoice(Manager* usr){
-    int choice;
-    /*这插入一个选择函数 ,选择要进行操作的类型并返回相应序号 */
+    system("cls");
+    for (int i = 1; i <= 60; ++i){
+        setCursorLocation(i, 1);
+        cout << "=";
+        Sleep(10);
+    }
+    for (int i = 2; i <= 30; ++i){
+        setCursorLocation(1, i);
+        cout << "||";
+        setCursorLocation(59, i);
+        cout << "||";
+        Sleep(10);
+    }
+    for (int i = 2; i <= 58; ++i){
+        setCursorLocation(i, 30);
+        cout << "=";
+        Sleep(10);
+    }
+    
+    setTextColor(3);
+    setCursorLocation(13,7);
+    std::cout <<"Use Direction Key to Choose Mode ";
+    setCursorLocation(13, 8);
+    std::cout <<"And Tap Enter to Confirm:";
+
+    setCursorLocation(13,10);
+    setBackgroundColor();
+    cout << ">1.Verify_New_Account";
+
+    setTextColor(3);
+    setCursorLocation(13,11);
+    cout << "2.Process_Report_Loss";
+    
+    setTextColor(3);
+    setCursorLocation(13,12);
+    cout << "3.Pro_Relate_Account";
+
+    setTextColor(3);
+    setCursorLocation(13,13);
+    cout << "4.Process_Appeal";
+
+    setTextColor(3);
+    setCursorLocation(13,14);
+    cout << "5.Process_Logout";
+
+    setTextColor(3);
+    setCursorLocation(13,15);
+    cout << "6.Exit";
+
+    int choice=1; 
+    bool isenter=false;
+     /*这插入一个选择函数 ,选择要进行操作的类型并返回相应序号*/
+    int ch=1;
+    while(ch=getch()){
+        switch(ch){
+            case 72://up
+                if(choice>1){
+                    switch(choice){
+                        case 2:
+                            setCursorLocation(13,10);
+                            setBackgroundColor();
+                            cout << ">1.Verify_New_Account";
+
+                            setTextColor(3);
+                            setCursorLocation(13,11);
+                            cout << "2.Process_Report_Loss ";
+                            --choice;
+                            break;
+                        case 3:
+                            setCursorLocation(13,11);
+                            setBackgroundColor();
+                            cout << ">2.Process_Report_Loss";
+
+                            setTextColor(3);
+                            setCursorLocation(13,12);
+                            cout << "3.Pro_Relate_Account ";
+                            --choice;
+                            break;
+                        case 4:
+                            setCursorLocation(13,12);
+                            setBackgroundColor();
+                            cout << ">3.Pro_Relate_Account";
+
+                            setTextColor(3);
+                            setCursorLocation(13,13);
+                            cout << "4.Process_Appeal ";
+                            --choice;
+                            break;
+                        case 5:
+                            setCursorLocation(13,13);
+                            setBackgroundColor();
+                            cout << ">4.Process_Appeal";
+
+                            setTextColor(3);
+                            setCursorLocation(13,14);
+                            cout << "5.Process_Logout ";
+                            --choice;
+                            break;                        
+                        case 6:
+                            setCursorLocation(13,14);
+                            setBackgroundColor();
+                            cout << ">5.Process_Logout";
+
+                            setTextColor(3);
+                            setCursorLocation(13,15);
+                            cout << "6.Exit ";
+                            --choice;
+                            break;         
+                    }
+                }
+                break;
+            case 80://downward
+                if(choice <6){
+                    switch(choice){
+                        case 1:
+                            setCursorLocation(13,10);
+                            setTextColor(3);
+                            cout << "1.Verify_New_Account ";
+
+                            setCursorLocation(13,11);
+                            setBackgroundColor();
+                            cout << ">2.Process_Report_Loss";
+                            ++choice;
+                            break;                   
+                        case 2:
+                            setCursorLocation(13,11);
+                            setTextColor(3);
+                            cout << "2.Process_Report_Loss ";
+
+                            setCursorLocation(13,12);
+                            setBackgroundColor();
+                            cout << ">3.Pro_Relate_Account";
+                            ++choice;
+                            break;                             
+                        case 3:
+                            setCursorLocation(13,12);
+                            setTextColor(3);
+                            cout << "3.Pro_Relate_Account ";
+
+                            setCursorLocation(13,13);
+                            setBackgroundColor();
+                            cout << ">4.Process_Appeal";
+                            ++choice;
+                            break;                              
+                        case 4:
+                            setCursorLocation(13,13);
+                            setTextColor(3);
+                            cout << "4.Process_Appeal ";
+
+                            setCursorLocation(13,14);
+                            setBackgroundColor();
+                            cout << ">5.Process_Logout";
+                            ++choice;
+                            break; 
+                        case 5:
+                            setCursorLocation(13,14);
+                            setTextColor(3);
+                            cout << "5.Process_Logout ";
+
+                            setCursorLocation(13,15);
+                            setBackgroundColor();
+                            cout << ">6.Exit";
+                            ++choice;
+                            break;                         
+                    }
+                }
+                break;
+           case 13:
+               setTextColor(3);
+               isenter = true;
+               break;
+            default:
+                break;
+        }
+        if(isenter)
+            break;
+    }
+    setCursorLocation(39, 31);
     return choice;
 }
 
+
 void SignIn::UserSignin(User* usr ){
+    setTextColor(3);
     User_Opertation_UI();
     int choice = UserChoice(usr);
     bool Continue = true;
@@ -524,6 +702,7 @@ void SignIn::UserSignin(User* usr ){
             break;
 
         default:
+            Continue = false;
             break;
         };
         /*是否继续 */
@@ -532,6 +711,7 @@ void SignIn::UserSignin(User* usr ){
             choice = UserChoice(usr);
         }
         else{
+            setTextColor(3);
             choice = 0;
             break;
         }
@@ -540,8 +720,10 @@ void SignIn::UserSignin(User* usr ){
 }
 
 void SignIn::ManagerSignin(Manager* usr){
+    setTextColor(3);
     Manager_Operation_UI();
     int choice = ManagerChoice(usr);
+    bool Continue = true;
         while(choice){
             switch (choice)
             {
@@ -560,15 +742,21 @@ void SignIn::ManagerSignin(Manager* usr){
             case 5:
                 usr->Process_Logout();
                 break;
+            case 6:
+                Continue = false;
+                break;
             default:
+                Continue = false;
                 break;
             };
             /*是否继续 */
-            bool Continue = true;
+            
             if (Continue){
+                setTextColor(3);
                 choice = ManagerChoice(usr);
             }
             else{
+                choice = 0;
                 break;
             }
         }    
@@ -584,7 +772,10 @@ void SignIn::SigninAction(){
                 cout << "Load User Failed.";
                 system("Pause");
             }
-            else  UserSignin(usr);
+            else  {
+                UserSignin(usr);
+
+            }    
         }   
     }
     else{

@@ -55,36 +55,65 @@ int controller::ModeSelect(){//Sign in/up 功能选择界面函数 返回1为Sig
     setCursorLocation(13, 14);
     cout << "2.Sign Up";
 
+    setTextColor(3);
+    setCursorLocation(13, 15);
+    cout << "3.Exit";
+
     bool isenter = false;
     int mode = 1;
     int ch = 1;
     while(ch=getch()){
         switch(ch){
             case 72://up
-                if(mode==2){// 之前是2选项
-                    setCursorLocation(13, 13);
-                    setBackgroundColor();
-                    cout << ">1.Sign In";
+                if(mode>1){// 之前是2,3选项
+                    switch(mode){
+                        case 2:
+                            setCursorLocation(13, 13);
+                            setBackgroundColor();
+                            cout << ">1.Sign In";
 
-                    setCursorLocation(13, 14);
-                    setTextColor(3);
-                    cout << "2.Sign Up";
-                    --mode;
-                    break;
+                            setCursorLocation(13, 14);
+                            setTextColor(3);
+                            cout << "2.Sign Up ";
+                            --mode;
+                            break;
+                        case 3:
+                            setCursorLocation(13, 14);
+                            setBackgroundColor();
+                            cout << ">2.Sign Up";
 
+                            setCursorLocation(13, 15);
+                            setTextColor(3);
+                            cout << "3.Exit ";
+                            --mode;
+                            break;                            
+                    }
                 }
                 break;
             case 80://down
-                if(mode==1){//之前是1选项
-                    setCursorLocation(13, 14);
-                    setBackgroundColor();
-                    cout << ">2.Sign Up";
+                if(mode<3){//之前是1选项
+                    switch(mode){
+                        case 1:
+                            setCursorLocation(13, 14);
+                            setBackgroundColor();
+                            cout << ">2.Sign Up";
 
-                    setCursorLocation(13, 13);
-                    setTextColor(3);
-                    cout << "1.Sign In";
-                    ++mode;
-                    break;
+                            setCursorLocation(13, 13);
+                            setTextColor(3);
+                            cout << "1.Sign In ";
+                            ++mode;
+                            break;
+                        case 2:
+                            setCursorLocation(13, 15);
+                            setBackgroundColor();
+                            cout << ">3.Exit";
+
+                            setCursorLocation(13, 14);
+                            setTextColor(3);
+                            cout << "2.Sign Up ";
+                            ++mode;
+                            break;                           
+                    }
                 }
                 break;
             case 13:
@@ -101,8 +130,10 @@ int controller::ModeSelect(){//Sign in/up 功能选择界面函数 返回1为Sig
 }
 
 void controller::SignUp_Operation(){//注册行为函数
-   // SignUp su;
-                   //调用signup.cpp中代码段
+    SignUp *ptr = new SignUp;
+    ptr->Sign_Action();
+    delete ptr;
+    //调用signup.cpp中代码段
     //SigninAction();
 }
 
@@ -129,6 +160,7 @@ void controller::run(){
             choice=ModeSelect();
         }
         else{//退出系统
+            
             break;
         }
     }
