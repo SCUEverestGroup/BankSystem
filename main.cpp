@@ -17,6 +17,23 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     BankPersonnel bank;
+    // signup test (pass)
+//    User newuser("qwerty", "Anita", "female", "1000348762938141x", "453-1236", "Anita@foxmail.com", "XinHua Road", "10102");
+//    cout << newuser.password << endl;
+//    bank.signUp(newuser);
+    // login test
+//    bank.login("125349", "qwerty");
+//    cout << bank.seeInfo()->name << endl;
+//    bank.applyLoan("1000");
+    bank.login("000001", "123456");
+    cout << bank.getAllLoanAppeal()[0]->amount << endl;
+    bank.approveLoanAppeal("943605", "1.2");
+    
+    
+    
+    
+    
+//    bank.signup(*new User());
     // test interface
 //    Interface interface;
 //    cout << (interface.isManager("000001") ? "true" : "false") << endl;

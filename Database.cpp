@@ -48,6 +48,8 @@ string Database::generateID(int n = 6){
  **/
 
 string Database::encrypt(std::string password){
+//    cout << password << endl;
+//    cout << MD5(password).toStr() << endl;
     return MD5(password).toStr();
 }
 
@@ -197,6 +199,7 @@ string Database::addUser(std::string password, std::string name, std::string gen
     // insert this user to base-user-table
     // cout << id << endl;
     command = "INSERT INTO `bank_data`.`base_user_table`(`user_id`, `password`, `is_user`) VALUES ('" + id + "', '" + encrypt(password) + "', 1);";
+//    cout << command << endl;
     state = mysql_query(connection, command.c_str());
     if (state != 0) {
         cout << mysql_error(connection) << endl;
@@ -538,6 +541,8 @@ User* Database::getUserByPassword(std::string userid, std::string password){
         }
         row = mysql_fetch_row(result);
         mysql_free_result(result);
+//        cout << "encrpt= " << encrypt(password) << endl;
+//        cout << row[1] << endl;
         if (strcmp(encrypt(password).c_str(), row[1]) == 0) {
             // password matched
             return searchUserById(userid);

@@ -32,9 +32,9 @@ User::User(){
     reviewed = 1;
 }
 
-User::User(std::string userid, std::string password, std::string uname, std::string ugender, std::string ucid, std::string phone, std::string email, std::string address, std::string zip, std::string cardnum, std::string deposite, std::string credit, std::string ureviewed){
+User::User(std::string userid, std::string upassword, std::string uname, std::string ugender, std::string ucid, std::string phone, std::string email, std::string address, std::string zip, std::string cardnum, std::string deposite, std::string credit, std::string ureviewed){
     id_account = userid;
-    password = password;
+    password = upassword;
     name = uname;
     gender = ugender;
     cid = ucid;
@@ -47,6 +47,17 @@ User::User(std::string userid, std::string password, std::string uname, std::str
     iss >> depositeAmount;
     istringstream isd(ureviewed);
     isd >> reviewed;
+}
+
+User::User(std::string upassword, std::string uname, std::string ugender, std::string ucid, std::string phone, std::string email, std::string address, std::string zip){
+    password = upassword;
+    name = uname;
+    gender = ugender;
+    cid = ucid;
+    phone_number = phone;
+    email_address = email;
+    home_address = address;
+    zip_code = zip;
 }
 
 User::~User(){
@@ -64,9 +75,20 @@ Manager::Manager(){
     permission = 0;
 }
 
-Manager::Manager(std::string userid, std::string password, std::string uname, std::string ugender, std::string ucid, std::string phone, std::string email, std::string upermission){
+Manager::Manager(std::string userid, std::string upassword, std::string uname, std::string ugender, std::string ucid, std::string phone, std::string email, std::string upermission){
     id_account = userid;
-    password = password;
+    password = upassword;
+    name = uname;
+    gender = ugender;
+    cid = ucid;
+    phone_number = phone;
+    email_address = email;
+    istringstream iss(upermission);
+    iss >> permission;
+}
+
+Manager::Manager(std::string upassword, std::string uname, std::string ugender, std::string ucid, std::string phone, std::string email, std::string upermission){
+    password = upassword;
     name = uname;
     gender = ugender;
     cid = ucid;

@@ -491,7 +491,10 @@ bool ManagerInterface::approveLoanAppeals(std::string loanid, std::string intere
         cout << "No Manager Selected" << endl;
         return false;
     } else {
-        return db.addToLoan(loanid, interest);
+        if (db.addToLoan(loanid, interest)) {
+            db.deleteLoanAppeal(loanid);
+            return true;
+        } else return false;
     }
 }
 

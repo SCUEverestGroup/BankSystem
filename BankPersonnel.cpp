@@ -17,7 +17,7 @@ BankPersonnel::BankPersonnel() {
     
 }
 
-string BankPersonnel::signup(User user){
+string BankPersonnel::signUp(User user){
     return userInterface.signUpNewUser(user.password, user.name, user.gender, user.cid, user.email_address, user.email_address, user.email_address, user.zip_code);
 }
 
@@ -123,6 +123,10 @@ bool BankPersonnel::withdrawMoney(std::string amount){
         cout << "No User Selected" << endl;
         return false;
     } else {
+        if (stof(amount) > userInterface.getUser()->depositeAmount){
+            cout << "Not enough deposite" << endl;
+            return false;
+        }
         return userInterface.withdrawMoney(amount);
     }
 }

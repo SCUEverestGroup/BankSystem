@@ -31,7 +31,8 @@ public:
     std::string zip_code;
     
     User();
-    User(std::string userid, std::string password, std::string uname, std::string ugender, std::string ucid, std::string phone, std::string email, std::string address, std::string zip, std::string cardnum, std::string deposite, std::string credit, std::string ureviewed);
+    User(std::string userid, std::string upassword, std::string uname, std::string ugender, std::string ucid, std::string phone, std::string email, std::string address, std::string zip, std::string cardnum, std::string deposite, std::string credit, std::string ureviewed);
+    User(std::string upassword, std::string name, std::string gender, std::string cid, std::string phone, std::string email, std::string address, std::string zip);
     ~User();
 };
 
@@ -39,7 +40,8 @@ class Manager : public BaseUser{
 public:
     int permission;//权限
     Manager();
-    Manager(std::string userid, std::string password, std::string uname, std::string ugender, std::string ucid, std::string phone, std::string email, std::string upermission);
+    Manager(std::string userid, std::string upassword, std::string uname, std::string ugender, std::string ucid, std::string phone, std::string email, std::string upermission);
+    Manager(std::string upassword, std::string uname, std::string ugender, std::string ucid, std::string phone, std::string email, std::string upermission);
     ~Manager();
 };
 

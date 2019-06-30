@@ -42,7 +42,7 @@ public:
      *
      **/
     
-    std::string signup(User user);
+    std::string signUp(User user);
     
     /**
      * @Description: 管理员用户注册函数，传入需要注册的管理员对象，返回值是一个 string 是系统为该用户生成的 id 号。如果该 id 号不为空，表示管理员用户注册是否成功。该函数在调用的时候必须本身有一个管理员用户已经登陆，且该管理员创建的管理员用户的权限等级不能高于登陆的管理员权限等级。
