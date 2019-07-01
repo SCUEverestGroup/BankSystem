@@ -28,7 +28,7 @@ class SignIn{
         void Delete_Info();//删除信息
         void Modify_Info();//修改信息
         void Report_Loss();//挂失
-        void Relate_Account();//关联信息
+        void Relate_Card();//关联卡号
         void Retrieve_Password();//取回密码
         void Appeal();//申诉
         void Logout();//注销账户      

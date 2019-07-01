@@ -5,7 +5,6 @@
 #include <conio.h>
 #include <time.h>
 #include "bank.h"
-#include "Appeal.h"
 #include "BankPersonnel.hpp"
 #include "uitool.h"
 using namespace std;
@@ -13,20 +12,24 @@ using namespace std;
 void SignIn::Init_Signin_UI(){
     //界面
     system("cls");
-    for (int i = 1; i <= 60; ++i){
+    for (int i = 1; i <= 35; ++i){
         setCursorLocation(i, 1);
+        cout << "=";
+        setCursorLocation(71 - i, 1);
         cout << "=";
         Sleep(10);
     }
     for (int i = 2; i <= 30; ++i){
         setCursorLocation(1, i);
         cout << "||";
-        setCursorLocation(59, i);
+        setCursorLocation(69, i);
         cout << "||";
         Sleep(10);
     }
-    for (int i = 2; i <= 58; ++i){
+    for (int i = 2; i <= 35; ++i){
         setCursorLocation(i, 30);
+        cout << "=";
+        setCursorLocation(70 - i, 30);
         cout << "=";
         Sleep(10);
     }
@@ -46,6 +49,7 @@ void SignIn::Manager_Operation_UI(){
 
 bool SignIn::JudgeType(){
     bool usertype = false;
+    int count = 0;//计算错误次数
     while(islocked){
             setCursorLocation(13, 10);//输入ID 密码 并记录在ID KEY中
             setTextColor(3);
@@ -98,15 +102,16 @@ bool SignIn::JudgeType(){
                 usertype = false;
                 islocked = false;
             }
-               
+            
             if(islocked){
-                setCursorLocation(13, 9);
+                setCursorLocation(13, 20);
                 cout << "ID or Key error! Please Type In Again!";
+                ++count;
                 system("Pause");
                 system("cls");
             }
             else{
-                setCursorLocation(13, 9);
+                setCursorLocation(13, 20);
                 //数据库查找返回usertype user则为true;
 
                 //usertype = false;
@@ -151,20 +156,24 @@ Manager* SignIn::ReturnManager(){
 
 int SignIn::UserChoice(){
     system("cls");
-    for (int i = 1; i <= 60; ++i){
+    for (int i = 1; i <= 35; ++i){
         setCursorLocation(i, 1);
+        cout << "=";
+        setCursorLocation(71 - i, 1);
         cout << "=";
         Sleep(10);
     }
     for (int i = 2; i <= 30; ++i){
         setCursorLocation(1, i);
         cout << "||";
-        setCursorLocation(59, i);
+        setCursorLocation(69, i);
         cout << "||";
         Sleep(10);
     }
-    for (int i = 2; i <= 58; ++i){
+    for (int i = 2; i <= 35; ++i){
         setCursorLocation(i, 30);
+        cout << "=";
+        setCursorLocation(70 - i, 30);
         cout << "=";
         Sleep(10);
     }
@@ -201,7 +210,7 @@ int SignIn::UserChoice(){
 
     setTextColor(3);
     setCursorLocation(13,16);
-    cout << "7.Relate_Account";
+    cout << "7.Relate_Card";
 
     setTextColor(3);
     setCursorLocation(13,17);
@@ -221,7 +230,11 @@ int SignIn::UserChoice(){
 
     setTextColor(3);
     setCursorLocation(13,21);
-    cout << "12.Exit";
+    cout << "12.Appeal";
+
+    setTextColor(3);
+    setCursorLocation(13,22);
+    cout << "13.Exit";
 
     int choice=1; 
     bool isenter=false;
@@ -301,7 +314,7 @@ int SignIn::UserChoice(){
                             setTextColor(3);
                             setCursorLocation(13,16);
 
-                            cout << "7.Relate_Account ";
+                            cout << "7.Relate_Card ";
                             --choice;
                             break;
 
@@ -309,7 +322,7 @@ int SignIn::UserChoice(){
                             
                             setCursorLocation(13,16);
                             setBackgroundColor();
-                            cout << ">7.Relate_Account";
+                            cout << ">7.Relate_Card";
 
                             setTextColor(3);
                             setCursorLocation(13,17);
@@ -360,14 +373,26 @@ int SignIn::UserChoice(){
 
                             setTextColor(3);
                             setCursorLocation(13,21);
-                            cout << "12.Exit ";
+                            cout << "12.Appeal ";
                             --choice;
-                            break;           
+                            break;   
+
+                        case 13:
+                            
+                            setCursorLocation(13,21);
+                            setBackgroundColor();
+                            cout << ">12.Appeal";
+
+                            setTextColor(3);
+                            setCursorLocation(13,22);
+                            cout << "13.Exit ";
+                            --choice;
+                            break;               
                     }
                 }
                 break;
             case 80://downward
-                if(choice <12){
+                if(choice <13){
                     switch(choice){
                         case 1:
                             setCursorLocation(13,10);
@@ -437,7 +462,7 @@ int SignIn::UserChoice(){
 
                             setBackgroundColor();
                             setCursorLocation(13,16);
-                            cout << ">7.Relate_Account";
+                            cout << ">7.Relate_Card";
                             ++choice;
                             break;
 
@@ -445,7 +470,7 @@ int SignIn::UserChoice(){
                             
                             setCursorLocation(13,16);
                             setTextColor(3);
-                            cout << "7.Relate_Account ";
+                            cout << "7.Relate_Card ";
 
                             setBackgroundColor();
                             setCursorLocation(13,17);
@@ -495,9 +520,20 @@ int SignIn::UserChoice(){
 
                             setBackgroundColor();
                             setCursorLocation(13,21);
-                            cout << ">12.Exit";
+                            cout << ">12.Appeal";
                             ++choice;
-                            break;                             
+                            break;  
+                        case 12:
+                            
+                            setCursorLocation(13,21);
+                            setTextColor(3);
+                            cout << "12.Appeal ";
+
+                            setBackgroundColor();
+                            setCursorLocation(13,22);
+                            cout << ">13.Exit";
+                            ++choice;
+                            break;                                 
                     }
                 }
                 break;
@@ -516,20 +552,24 @@ int SignIn::UserChoice(){
 
 int SignIn::ManagerChoice(){
     system("cls");
-    for (int i = 1; i <= 60; ++i){
+    for (int i = 1; i <= 35; ++i){
         setCursorLocation(i, 1);
+        cout << "=";
+        setCursorLocation(71 - i, 1);
         cout << "=";
         Sleep(10);
     }
     for (int i = 2; i <= 30; ++i){
         setCursorLocation(1, i);
         cout << "||";
-        setCursorLocation(59, i);
+        setCursorLocation(69, i);
         cout << "||";
         Sleep(10);
     }
-    for (int i = 2; i <= 58; ++i){
+    for (int i = 2; i <= 35; ++i){
         setCursorLocation(i, 30);
+        cout << "=";
+        setCursorLocation(70 - i, 30);
         cout << "=";
         Sleep(10);
     }
@@ -725,7 +765,7 @@ void SignIn::UserSignin(){
             Report_Loss();
             break;
         case 7:
-            Relate_Account();
+            Relate_Card();
             break;
         case 8:
             Retrieve_Password();
@@ -742,6 +782,10 @@ void SignIn::UserSignin(){
             break;
 
         case 12:
+            Appeal();
+            break;
+
+        case 13:
             bank.signout();
             Continue = false;
             break;
@@ -813,29 +857,12 @@ void SignIn::SigninAction(){
     Init_Signin_UI();
     if(JudgeType()){//判定用户类型
         if(!islocked){
-            //User *usr = ReturnUser(ID,Key);
-            // if(usr==NULL){
-            //     setCursorLocation(13, 24);
-            //     cout << "Load User Failed.";
-            //     system("Pause");
-            // }
-            // else  {
-            UserSignin();
-
-            //}    
+            UserSignin();  
         }   
     }
     else{
         if(!islocked){
-            //Manager *usr = ReturnManager(ID, Key);
-            // if(usr==NULL){
-            //     setCursorLocation(13, 24);
-            //     cout << "Load Manager Failed";
-			// 	system("Pause");
-            // }
-            //else 
             ManagerSignin();//管理员登陆
-
         }
     }
 }
@@ -1071,15 +1098,18 @@ void SignIn::Report_Loss(){
     system("Pause");
 	
 }
-void SignIn::Relate_Account(){
+
+void SignIn::Relate_Card(){
 	system("cls");
+    setCursorLocation(13, 8);
+    cout << "Type In *1* if you want to bind Cards.";
     setCursorLocation(13, 9);
-    cout << "Type In *1* if you want to bind accounts";
-    setCursorLocation(13, 10);
     cout<<" or *2* if you want to Remove Bingding Relationship ";
+    setCursorLocation(13, 10);
     int choice;
     cin >> choice;
-
+    setCursorLocation(13, 11);
+    cout << "Type In Your Card-Number.";
     setCursorLocation(13, 12);
     string Card_ID;
     cin >> Card_ID;
@@ -1087,7 +1117,7 @@ void SignIn::Relate_Account(){
         bool is_bound = bank.bindCard(Card_ID);
         setCursorLocation(13, 13);
         if(is_bound){
-            cout << "Successfully Relate your Accounts";
+            cout << "Successfully Relate your Cards";
         }
         else
             cout << "Relate Accounts Failed";
@@ -1245,7 +1275,7 @@ void SignIn::Verify_New_Account(){
 	
     vector<User *> usr;
     bool iscontinue = true;
-
+    
     while(iscontinue){
         system("cls");
         setCursorLocation(13,10);
@@ -1276,9 +1306,16 @@ void SignIn::Verify_New_Account(){
                 bool isverified = bank.approveUnReviewedUser(id);
                 setCursorLocation(13, i++);
                 if(isverified){
-                    cout << "Verified Successfully,type *1* to continue,*2* to exit";
+                    cout << "Verified Successfully,";
+                    setCursorLocation(13, i++);
+                    cout<< "type * 1 * to continue, *2 * to exit ";
                 }
-                else  cout << "Verified Failed ,type *1* to continue,*2* to exit";
+                else{
+                    cout << "Verified Failed ,";
+                    setCursorLocation(13, i++);
+                    cout<< "type * 1 * to continue, *2 * to exit ";
+                }
+
 
                 int choice;
                 setCursorLocation(13, i++);
@@ -1290,15 +1327,15 @@ void SignIn::Verify_New_Account(){
                     iscontinue = false;
         }
     }
-    
 
+    setCursorLocation(13, 25);
     system("Pause");
 }
 void SignIn::Process_Report_Loss(){
     vector<Loss *> Loss_List;
     bool iscontinue = true;
 
-
+   
     while(iscontinue){
             system("cls");
             setCursorLocation(13,10);
@@ -1308,12 +1345,13 @@ void SignIn::Process_Report_Loss(){
             Loss_List = bank.getAllLoss();
 
             setCursorLocation(13, 12);
+
             if(Loss_List.empty()){
                 cout << "No Available Operation.";
                 iscontinue = false;
             }
             else{
-                    int i = 13;
+                int i = 13;   
                 int k = 1;
                 for(auto &loss:Loss_List){
                     setCursorLocation(9, i);
@@ -1371,77 +1409,87 @@ void SignIn::Process_Report_Loss(){
            
        
     }
-    
+    setCursorLocation(13, 25);
     system("Pause");
 }
+
 void SignIn::Pro_Relate_Account(){
 	system("cls");
     setCursorLocation(13,10);
     cout << "Activity Inavailable";
+    setCursorLocation(13, 12);
     system("Pause");
 }
 
 void SignIn::Process_Appeal(){
 
-    // vector<Appeal*> Appeal_List;
-    // bool iscontinue = true;
+    
+    bool iscontinue = true;
 
-
-    // while(iscontinue){
-    //         system("cls");
-    //         setCursorLocation(13,10);
-    //         cout << "Loading Appeal List...";
+    
+    while(iscontinue){
+            system("cls");
+            setCursorLocation(13,10);
+            cout << "Loading Appeal List...";
             
-    //         setCursorLocation(13, 11);
-    //         Appeal_List = bank.getAllAppeal();
+            setCursorLocation(13, 11);
+            Appeal_List = bank.getAllAppeal();
 
-    //         setCursorLocation(13, 12);
-    //         int i = 13;
-    //         for(auto &app:Appeal_List){
-    //             setCursorLocation(13, i++);
-    //             cout << "Appeal Id:  " << app->tid << "User Id:  " << app->userid;
-    //             setCursorLocation(13, i++);
-    //             cout << "Appeal Content: " << app->content;
-    //         }
-    //         //setCursorLocation(13, i);
-    //         setCursorLocation(13, i++);
-    //         cout << "Type in the Appeal Id To Verify";
+           if(Appeal_List.empty()){
+                cout << "No Available Operation.";
+                iscontinue = false;
+            }
+            else{
+                    setCursorLocation(13, 12);
+                    int i = 13;
+                    for(auto &app:Appeal_List){
+                        setCursorLocation(13, i++);
+                        cout << "Appeal Id:  " << app->tid << "User Id:  " << app->userid;
+                        setCursorLocation(13, i++);
+                        cout << "Appeal Content: " << app->content;
+                    }
+                    //setCursorLocation(13, i);
+                    setCursorLocation(13, i++);
+                    cout << "Type in the Appeal Id To Verify";
 
-    //         string id;
-    //         setCursorLocation(13, i++);
-    //         cin >> id ;
+                    string id;
+                    setCursorLocation(13, i++);
+                    cin >> id ;
 
-    //         bool isapproved = bank.approveAppeal(id);
-    //         setCursorLocation(13, i++);
-    //         if(isapproved){
-    //             cout << "Appeal Approved Successfully,";
-    //             setCursorLocation(13, i++);
-    //             cout<< "type *1* to continue,*2* to exit";
-    //         }
-    //         else{
-    //             cout << "Approved Failed ,";
-    //             setCursorLocation(13, i++);
-    //             cout<<"type * 1 * to continue, *2 * to exit ";
-    //         }
-    //         int choice;
-    //         setCursorLocation(13, i++);
-    //         cin >> choice ;
-        
-    //         if(choice==1)
-    //             iscontinue = true;
-    //         else
-    //             iscontinue = false;          
+                    bool isapproved = bank.approveAppeal(id);
+                    setCursorLocation(13, i++);
+                    if(isapproved){
+                        cout << "Appeal Approved Successfully,";
+                        setCursorLocation(13, i++);
+                        cout<< "type *1* to continue,*2* to exit";
+                    }
+                    else{
+                        cout << "Approved Failed ,";
+                        setCursorLocation(13, i++);
+                        cout<<"type * 1 * to continue, *2 * to exit ";
+                    }
+                    int choice;
+                    setCursorLocation(13, i++);
+                    cin >> choice ;
+                
+                    if(choice==1)
+                        iscontinue = true;
+                    else
+                        iscontinue = false;     
+            }
+                 
 
        
-    // }
-    
+    }
+    setCursorLocation(13, 25);
     system("Pause");
  
 }
 void SignIn::Process_Logout(){
 	system("cls");
-    setCursorLocation(13,10);
+    setCursorLocation(13, 9);
     cout << "Type *1* to Continue,*2* to exit";
+    setCursorLocation(13, 10);
     int choice;
     cin >> choice;
     if(choice==1){
@@ -1464,6 +1512,8 @@ void SignIn::Process_Logout(){
     setCursorLocation(13, 14);
     system("Pause");
 }
+
+
 
 void SignIn::SignUp_Manager(){
     system("cls");

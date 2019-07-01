@@ -96,7 +96,7 @@ public:
     
     
     /**
-     * @Description: 修改基本内容。设计中一个用户可以修改的个人信息内容只有 phone, email, address 和 zip，传入第一个变量是一个 int 类型的类别，1 表示 phone，2 表示 email，3 表示 address，4 表示 zip， 第二个变量是一个 string 类型的变量，表示修改的内容，可以为空表示删除这项个人信息。这个函数只能由登陆后的用户调用，管理员无法调用。返回值是一个 bool，表示修改是否成功。
+     * @Description: 修改基本内容。设计中一个用户可以修改的个人信息内容只有 ，传入第一个变量是一个 int 类型的类别，1 表示 phone，2 表示 email，3 表示 address，4 表示 zip， 第二个变量是一个 string 类型的变量，表示修改的内容，可以为空表示删除这项个人信息。这个函数只能由登陆后的用户调用，管理员无法调用。返回值是一个 bool，表示修改是否成功。
      *
      * @param ccategory value
      * @return bool

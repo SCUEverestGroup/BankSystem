@@ -14,7 +14,7 @@ using namespace std;
 
 
 void controller::welcome(){//欢迎界面
-    setwindowsize(62, 32);
+    setwindowsize(50, 32);
     setCursorLocation(13, 10);
     cout << "Welcome to Bank Management System!";
     setCursorLocation(13, 20);
@@ -25,20 +25,24 @@ void controller::welcome(){//欢迎界面
 
 void controller::initUI(){//初始化系统，读入数据库信息
     system("cls");
-    for (int i = 1; i <= 60; ++i){
+    for (int i = 1; i <= 35; ++i){
         setCursorLocation(i, 1);
+        cout << "=";
+        setCursorLocation(71 - i, 1);
         cout << "=";
         Sleep(10);
     }
     for (int i = 2; i <= 30; ++i){
         setCursorLocation(1, i);
         cout << "||";
-        setCursorLocation(59, i);
+        setCursorLocation(69, i);
         cout << "||";
         Sleep(10);
     }
-    for (int i = 2; i <= 58; ++i){
+    for (int i = 2; i <= 35; ++i){
         setCursorLocation(i, 30);
+        cout << "=";
+        setCursorLocation(70 - i, 30);
         cout << "=";
         Sleep(10);
     }
@@ -134,10 +138,8 @@ int controller::ModeSelect(){//Sign in/up 功能选择界面函数 返回1为Sig
 
 void controller::SignUp_Operation(){//注册行为函数
     SignUp *ptr = new SignUp;
-    ptr->Sign_Action();
+    ptr->Sign_Action();//调用signup.cpp中代码段
     delete ptr;
-    //调用signup.cpp中代码段
-    //SigninAction();
 }
 
 void controller::SignIn_Operation(){//登陆行为函数

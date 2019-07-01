@@ -901,7 +901,7 @@ bool Database::changePasswordbyId(std::string userid, std::string password){
 
 
 bool Database::updateLossCardNum(std::string userid, std::string old_cardnum, std::string new_card_num) {
-    command = "UPDATE `bank_data`.`card_table` SET `cardnum` = '" + new_card_num + "', `isloss` = 1 WHERE `userid` = '" + userid + "' AND `cardnum` = '" + old_cardnum + "'";
+    command = "UPDATE `bank_data`.`card_table` SET `cardnum` = '" + new_card_num + "', `isloss` = 0 WHERE `userid` = '" + userid + "' AND `cardnum` = '" + old_cardnum + "'";
     state = mysql_query(connection, command.c_str());
     if (state != 0) {
         cout << mysql_error(connection) << endl;
