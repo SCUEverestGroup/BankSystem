@@ -32,7 +32,7 @@ User::User(){
     reviewed = 1;
 }
 
-User::User(std::string userid, std::string upassword, std::string uname, std::string ugender, std::string ucid, std::string phone, std::string email, std::string address, std::string zip, std::string cardnum, std::string deposite, std::string credit, std::string ureviewed){
+User::User(std::string userid, std::string upassword, std::string uname, std::string ugender, std::string ucid, std::string phone, std::string email, std::string address, std::string zip, std::string deposite, std::string credit, std::string ureviewed){
     id_account = userid;
     password = upassword;
     name = uname;

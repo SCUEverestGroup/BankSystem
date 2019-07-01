@@ -22,12 +22,17 @@ int main(int argc, const char * argv[]) {
 //    cout << newuser.password << endl;
 //    bank.signUp(newuser);
     // login test
-//    bank.login("125349", "qwerty");
+    bank.login("812841", "qwerty");
+    bank.depositeMoney("100");
+    cout << bank.seeInfo()->depositeAmount << endl;
+    bank.signout();
+    bank.login("812841", "qwerty");
+    cout << bank.seeInfo()->depositeAmount << endl;
 //    cout << bank.seeInfo()->name << endl;
 //    bank.applyLoan("1000");
-    bank.login("000001", "123456");
-    cout << bank.getAllLoanAppeal()[0]->amount << endl;
-    bank.approveLoanAppeal("943605", "1.2");
+//    bank.login("000001", "123456");
+//    cout << bank.getAllLoanAppeal()[0]->amount << endl;
+//    bank.approveLoanAppeal("943605", "1.2");
     
     
     

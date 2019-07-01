@@ -582,7 +582,7 @@ vector<User*> Database::searchUserByString(std::string condition, std::string va
     } else {
         result = mysql_store_result(connection);
         while ((row = mysql_fetch_row(result)) != NULL) {
-            output.push_back(new User(row[0], "", row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[9], row[10], row[8], row[11]));
+            output.push_back(new User(row[0], "", row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[9], row[8], row[11]));
         }
         mysql_free_result(result);
         return output;
@@ -600,7 +600,7 @@ vector<User*> Database::searchUserByInt(std::string condition, std::string value
     } else {
         result = mysql_store_result(connection);
         while ((row = mysql_fetch_row(result)) != NULL) {
-            output.push_back(new User(row[0], "", row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[9], row[10], row[8], row[11]));
+            output.push_back(new User(row[0], "", row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[9], row[8], row[11]));
         }
         mysql_free_result(result);
         return output;
@@ -633,7 +633,7 @@ User* Database::searchUserById(std::string userid){
     } else {
         result = mysql_store_result(connection);
         row = mysql_fetch_row(result);
-        User* output = new User(row[0], "", row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[9], row[10], row[8], row[11]);
+        User* output = new User(row[0], "", row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[9], row[8], row[11]);
         mysql_free_result(result);
         return output;
     }
