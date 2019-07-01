@@ -6,7 +6,10 @@
 #include "uitool.h"
 #include "signup.h"
 #include "signin.h"
-#include "baseuser.h"
+//#include "baseuser.h"
+#include "BankPersonnel.hpp"
+#include "bank.h"
+#include "User.h"
 using namespace std;
 
 
@@ -160,7 +163,6 @@ void controller::run(){
             choice=ModeSelect();
         }
         else{//退出系统
-            
             break;
         }
     }

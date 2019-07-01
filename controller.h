@@ -1,5 +1,7 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
+#include "BankPersonnel.hpp"
+
 class controller{
     public:
         

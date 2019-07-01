@@ -4,8 +4,11 @@
 #include <time.h>
 #include <cstdio>
 #include"signup.h"
-#include"baseuser.h" 
+//#include"baseuser.h" 
 #include"uitool.h"
+#include"User.h"
+#include "bank.h"
+#include"BankPersonnel.hpp"
 
 using namespace std;
 
@@ -107,9 +110,19 @@ void SignUp::Sign_Up_Info(){
     cin >> Zip;
 
     /*上传数据至数据库中*/
+    User usr1(Key, Name, Sex, ID_Card, Phone, Email, Address, Zip);
+    string id=bank.signUp(usr1);
     setCursorLocation(13, 24);
-    cout << "Submit Successfully!!";
+    if(id!=""){
+        cout << "Submit Successfully!!";
+        setCursorLocation(13, 25);
+        cout << "Please Remember Your ID:  " << id;
+    }
+    
     system("Pause");
+
+    
+
 }
 
 void SignUp::Init_Signup_UI(){
