@@ -17,6 +17,7 @@ class SignUp{
         string Email;
         string Address;
         string Zip;
+        int Permission;
 };
 
 #endif

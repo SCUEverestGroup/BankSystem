@@ -12,6 +12,7 @@
 #include "Database.h"
 #include "User.h"
 #include "Loss.h"
+#include "Appeal.h"
 #include "Loan.h"
 
 class Interface{

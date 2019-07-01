@@ -6,8 +6,8 @@
 //  Copyright © 2019 Soptq. All rights reserved.
 //
 
-#ifndef Appeal_h
-#define Appeal_h
+#ifndef APPEAL_H
+#define APPEAL_H
 
 class Appeal{
 public:

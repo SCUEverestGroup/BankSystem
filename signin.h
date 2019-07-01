@@ -20,6 +20,7 @@ class SignIn{
 
         void SigninAction();//总的注册流程函数
         /*User */
+        void SeeInfor();
         void Deposite_Money();//存款
         void Withdraw_Money();//取款
         void Tranfer_Money();//转账
@@ -37,6 +38,7 @@ class SignIn{
         void Pro_Relate_Account();//处理关联账户
         void Process_Appeal();//处理申诉
         void Process_Logout();//处理挂失
+        void SignUp_Manager();//注册管理员
 
     private:
         string ID;
