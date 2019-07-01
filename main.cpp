@@ -16,18 +16,24 @@
 using namespace std;
 
 int main(int argc, const char * argv[]) {
-    BankPersonnel bank;
+//    BankPersonnel bank;
+//    bank.login("812841", "qwerty");
+//    bank.bindCard("123");
+//    bank.reportCardLoss("123");
+//    bank.login("000001", "123456");
+//    bank.approveLoss("812841", "123", "321");
+//    vector<Appeal *> Appeal_List;
     // signup test (pass)
 //    User newuser("qwerty", "Anita", "female", "1000348762938141x", "453-1236", "Anita@foxmail.com", "XinHua Road", "10102");
 //    cout << newuser.password << endl;
 //    bank.signUp(newuser);
     // login test
-    bank.login("812841", "qwerty");
-    bank.depositeMoney("100");
-    cout << bank.seeInfo()->depositeAmount << endl;
-    bank.signout();
-    bank.login("812841", "qwerty");
-    cout << bank.seeInfo()->depositeAmount << endl;
+//    bank.login("812841", "qwerty");
+//    bank.depositeMoney("100");
+//    cout << bank.seeInfo()->depositeAmount << endl;
+//    bank.signout();
+//    bank.login("812841", "qwerty");
+//    cout << bank.seeInfo()->depositeAmount << endl;
 //    cout << bank.seeInfo()->name << endl;
 //    bank.applyLoan("1000");
 //    bank.login("000001", "123456");
